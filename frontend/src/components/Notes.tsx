@@ -61,6 +61,8 @@ const Notes = () => {
               id={n._id}
               importance={n.importance}
               key={n._id}
+              createdAt={n.createdAt}
+              updatedAt={n.updatedAt}
             />
           ))}
         </div>

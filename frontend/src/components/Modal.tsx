@@ -1,15 +1,23 @@
 import React, { ReactNode } from "react";
-import { BiCross } from "react-icons/bi";
 import { GiCrossMark } from "react-icons/gi";
 
 type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
+  date: string;
+  customTitle?: ReactNode;
   children: ReactNode;
 };
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  title,
+  date,
+  children,
+  customTitle,
+}) => {
   if (!isOpen) return null;
 
   return (
@@ -23,6 +31,8 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
       >
         <header className="flex justify-between items-center p-4 border-b border-slate-500">
           {title && <h2 className="text-lg font-semibold">{title}</h2>}
+          {date && <p className="font-mono text-lg font-bold">{date}</p>}
+          {customTitle && <p>{customTitle}</p>}
           <button
             className="text-gray-600 hover:text-gray-800"
             onClick={onClose}
