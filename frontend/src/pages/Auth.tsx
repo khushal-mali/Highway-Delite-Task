@@ -23,8 +23,8 @@ const Auth = () => {
 
   return (
     <div className="w-full h-screen flex">
-      <div className="relative w-5/12 min-w-[500px] flex-shrink-0 px-24 flex items-center justify-center">
-        <div className="absolute cursor-pointer flex gap-2 items-center top-[4%] left-[4%]">
+      <div className="relative md:w-5/12 md:min-w-[500px] w-full flex-shrink-0 md:px-20 px-10 flex items-center justify-center">
+        <div className="absolute cursor-pointer flex gap-2 items-center top-[4%] md:left-[4%] left-1/2 md:-translate-x-0 -translate-x-1/2">
           <img src="HD.svg" alt="logo" />
           <p className="font-bold text-2xl text-gray-800">HD</p>
         </div>
@@ -36,7 +36,7 @@ const Auth = () => {
         )}
       </div>
 
-      <div className="flex w-full items-center justify-center h-full">
+      <div className="hidden md:flex w-full items-center justify-center h-full">
         <div className="h-[96%] w-[96%] rounded-lg overflow-hidden">
           <img
             src="authSideImage.png"

@@ -68,29 +68,29 @@ const Signin = ({
   };
 
   return (
-    <div className="w-full space-y-6 max-w-sm">
+    <div className="w-full space-y-6 md:max-w-sm">
       <div className="flex w-full max-w-sm flex-col gap-1">
-        <p className="text-4xl font-bold text-gray-800">Sign In</p>
-        <p className="tracking-wider text-gray-500">
+        <p className="md:text-4xl text-3xl font-bold text-gray-800">Sign In</p>
+        <p className="md:tracking-wider text-gray-500">
           Please login to continue to your account.
         </p>
       </div>
 
-      <div className="w-full space-y-5 max-w-sm">
+      <div className="w-full md:space-y-5 space-y-4 md:max-w-sm">
         <div className="w-full">
           <div className="relative">
             <input
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="khush@gmail.com"
-              className="peer w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-lg border-slate-200 rounded-lg px-3 py-3 pr-24 transition duration-300 ease focus:outline-none focus:border-primary border-2 hover:border-slate-300 shadow-sm focus:shadow"
+              className="peer w-full bg-transparent placeholder:text-slate-400 text-slate-700 md:text-lg border-slate-200 rounded-lg px-3 py-2 md:py-3 pr-24 transition duration-300 ease focus:outline-none focus:border-primary border-2 hover:border-slate-300 shadow-sm focus:shadow"
             />
             <label className="absolute cursor-text bg-white px-1 text-slate-400 text-sm transition-all transform origin-left -top-2 left-3 peer-focus:text-xs peer-focus:text-primary peer-focus:scale-90">
               Email
             </label>
             <div
               onClick={handleRequestOTP}
-              className="right-3 shadow-lg active:shadow-none duration-150 transition-all top-3.5 absolute cursor-pointer text-white bg-primary py-1 px-2 rounded-md text-sm"
+              className="right-3 shadow-lg active:shadow-none duration-150 transition-all md:top-3.5 top-2 absolute cursor-pointer text-white bg-primary py-1 px-2 rounded-md text-sm"
             >
               Send Otp
             </div>
@@ -107,7 +107,7 @@ const Signin = ({
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
               type={otpVisible ? "text" : "password"}
-              className="peer w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-lg border-slate-200 rounded-lg px-3 py-3 transition duration-300 ease focus:outline-none focus:border-primary border-2 hover:border-slate-300 shadow-sm focus:shadow"
+              className="peer w-full bg-transparent placeholder:text-slate-400 text-slate-700 md:text-lg border-slate-200 rounded-lg px-3 py-2 md:py-3 transition duration-300 ease focus:outline-none focus:border-primary border-2 hover:border-slate-300 shadow-sm focus:shadow"
             />
             <label className="absolute cursor-text bg-white px-1 text-slate-400 text-sm transition-all transform origin-left -top-2 left-3 peer-focus:text-xs peer-focus:text-primary peer-focus:scale-90">
               OTP
