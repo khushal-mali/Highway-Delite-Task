@@ -9,10 +9,12 @@ export interface NoteProps {
 }
 
 const Note = ({ id, tags, title, importance, content }: NoteProps) => {
+  // console.log(tags.split(","));
+
   return (
     <div className="border p-4 rounded-lg shadow-lg">
-      <div className="h-8 mb-4 flex justify-between items-center">
-        <div className="text-slate-800 font-semibold text-xl">{title}</div>
+      <div className="mb-4 flex justify-between items-start">
+        <p className="text-slate-800 font-semibold text-xl">{title}</p>
         <div
           className={cn(
             importance === "High"
@@ -27,8 +29,13 @@ const Note = ({ id, tags, title, importance, content }: NoteProps) => {
         </div>
       </div>
 
-      <div className="font-bold text-xl mb-2">Tags:</div>
-      <div className="mb-4 text-gray-700">{tags}</div>
+      <div className="mb-4 flex gap-2 flex-wrap text-gray-700 text-wrap">
+        {tags.split(" ").map((w) => (
+          <div className="px-2 font-semibold rounded-md text-sm border py-1">
+            {" #" + w}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

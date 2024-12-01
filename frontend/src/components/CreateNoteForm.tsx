@@ -41,7 +41,8 @@ const CreateNoteForm = ({
     const formValues = {
       title: formData.title,
       content: formData.content,
-      tags: formData.tags.replace(/\s+/g, "_"),
+      tags: formData.tags.split(" ").join("").split(",").join(" "),
+      // .replace(/\s+/g, "_")
       importance: formData.importance,
     };
 
