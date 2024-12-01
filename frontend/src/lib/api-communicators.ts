@@ -88,3 +88,37 @@ export const logoutUser = async () => {
   const data = await res.data;
   return data;
 };
+
+export const createNewNote = async (
+  title: string,
+  content: string,
+  tags: string,
+  importance: "Low" | "Medium" | "High"
+) => {
+  const res = await axios.post("/note/create", {
+    title,
+    content,
+    tags,
+    importance,
+  });
+  console.log(res);
+
+  if (res.status !== 200) {
+    throw new Error(res.data.error);
+  }
+
+  const data = await res.data;
+  return data;
+};
+
+export const getAllNotes = async () => {
+  const res = await axios.post("/note/getAll");
+  console.log(res);
+
+  if (res.status !== 200) {
+    throw new Error(res.data.error);
+  }
+
+  const data = await res.data;
+  return data;
+};

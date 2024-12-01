@@ -27,3 +27,10 @@ export const verifySignupOtpVal = z.object({
     .min(6, "OTP should contain 6 numbers")
     .max(6, "OTP should only contain 6 numbers"),
 });
+
+export const noteFormCreationVal = z.object({
+  title: z.string().min(3),
+  content: z.string().min(10),
+  tags: z.string(),
+  importance: z.enum(["Medium", "Low", "High"]),
+});

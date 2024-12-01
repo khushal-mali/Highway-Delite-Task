@@ -18,10 +18,10 @@ const noteSchema = new mongoose.Schema(
     tags: {
       type: String,
     },
-    status: {
+    importance: {
       type: String,
-      enum: ["low", "medium", "high"], // Importance levels
-      default: "medium", // Default to medium importance
+      enum: ["Low", "Medium", "High"], // Importance levels
+      default: "Medium", // Default to medium importance
     },
   },
   {

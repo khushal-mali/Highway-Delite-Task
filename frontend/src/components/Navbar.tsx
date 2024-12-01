@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import { useAuth } from "../context/AuthContext";
-import { logoutUser } from "../utils/api-communicators";
+import { logoutUser } from "../lib/api-communicators";
 
 const Navbar = () => {
   const auth = useAuth();
@@ -18,18 +18,18 @@ const Navbar = () => {
   };
 
   return (
-    <div className="h-16 px-10 border-b flex items-center justify-between">
+    <div className="md:h-16 md:px-10 h-14 px-6 border-b flex items-center justify-between">
       <div
         onClick={() => navigate("/")}
         className="cursor-pointer flex gap-2 items-center"
       >
         <img src="HD.svg" alt="logo" />
-        <p className="font-bold text-2xl text-gray-800">Dashboard</p>
+        <p className="font-bold md:text-2xl text-lg text-gray-800">Dashboard</p>
       </div>
 
       <div
         onClick={handleLogout}
-        className="font-semibold text-xl cursor-pointer hover:underline text-primary"
+        className="font-semibold md:text-xl text-lg cursor-pointer hover:underline text-primary"
       >
         Sign Out
       </div>

@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { AuthCompType } from "../pages/Auth";
-import { loginOtpVal, verifyLoginOtpVal } from "../utils/validation";
+import { loginOtpVal, verifyLoginOtpVal } from "../lib/validation";
 import { z } from "zod";
 import toast from "react-hot-toast";
-import { requestLoginOtp, verifyLoginOtp } from "../utils/api-communicators";
+import { requestLoginOtp, verifyLoginOtp } from "../lib/api-communicators";
 import { useAuth } from "../context/AuthContext";
 
 const Signin = ({
@@ -38,7 +38,7 @@ const Signin = ({
     }
   };
 
-  const handleVerifySignup = async () => {
+  const handleVerifySignin = async () => {
     try {
       await verifyLoginOtpVal.parseAsync({ email, otp });
 
@@ -162,10 +162,10 @@ const Signin = ({
         </div>
 
         <button
-          onClick={handleVerifySignup}
+          onClick={handleVerifySignin}
           className="bg-primary text-lg font-medium text-white rounded-lg w-full py-3"
         >
-          Sign Up
+          Sign In
         </button>
 
         <div className="text-center">

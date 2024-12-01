@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { AuthCompType } from "../pages/Auth";
-import { requestSignupOtp, verifySignupOtp } from "../utils/api-communicators";
+import { requestSignupOtp, verifySignupOtp } from "../lib/api-communicators";
 import toast from "react-hot-toast";
-import { signupOtpVal, verifySignupOtpVal } from "../utils/validation";
+import { signupOtpVal, verifySignupOtpVal } from "../lib/validation";
 import { z } from "zod";
 import { useAuth } from "../context/AuthContext";
 
