@@ -4,6 +4,8 @@ import { FaRegEye } from "react-icons/fa";
 import markdownit from "markdown-it";
 import { cn } from "../lib/utils";
 import Modal from "./Modal";
+import { deleteNoteById } from "../lib/api-communicators";
+import toast from "react-hot-toast";
 
 const md = markdownit();
 
@@ -29,9 +31,36 @@ export const formatDate = (date: string) => {
   return `${day}/${month}/${year}`;
 };
 
-const Note = ({ tags, title, importance, content, createdAt }: NoteProps) => {
+const Note = ({
+  id,
+  tags,
+  title,
+  importance,
+  content,
+  createdAt,
+}: NoteProps) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const parsedContent = md.render(content || "");
+
+  const handleDelete = async () => {
+    const ans = window.confirm(`Should we delete the ${title}`);
+    if (!ans) return;
+
+    try {
+      const res = await deleteNoteById(id);
+      if (!res.deletedNote) throw new Error("Note not found");
+
+      if (res.deletedNote) {
+        toast.success("Note Deleted Successfully.");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("unable to delete the note.");
+    }
+  };
 
   return (
     <div className="border flex flex-col justify-between p-4 rounded-lg shadow-lg">
@@ -52,11 +81,14 @@ const Note = ({ tags, title, importance, content, createdAt }: NoteProps) => {
       </div>
 
       <div className="mb-4 flex gap-2 flex-wrap text-gray-700 text-wrap">
-        {tags.split(" ").map((w) => (
-          <div className="px-2 font-semibold rounded-md text-sm border py-1">
-            {" #" + w}
-          </div>
-        ))}
+        {tags
+          .split(" ")
+          .filter(Boolean)
+          .map((w) => (
+            <div className="px-2 font-semibold rounded-md text-sm border py-1">
+              {" #" + w}
+            </div>
+          ))}
       </div>
 
       <Modal
@@ -82,21 +114,29 @@ const Note = ({ tags, title, importance, content, createdAt }: NoteProps) => {
           </p>
         }
       >
-        <div className="text-center font-mono font-extrabold text-3xl">
-          {title}
-        </div>
+        <div className="overflow-y-scroll h-96">
+          <div className="text-center font-mono font-extrabold text-3xl">
+            {title}
+          </div>
 
-        <div className="font-bold text-xl text-center mt-5">-: Content :-</div>
-        {parsedContent && (
-          <article
-            className="prose max-w-4xl font-work-sans break-all"
-            dangerouslySetInnerHTML={{ __html: parsedContent }}
-          />
-        )}
+          <div className="font-bold text-xl text-center my-5">
+            -: Content :-
+          </div>
+
+          {parsedContent && (
+            <article
+              className="prose max-w-4xl font-work-sans break-all"
+              dangerouslySetInnerHTML={{ __html: parsedContent }}
+            />
+          )}
+        </div>
       </Modal>
 
       <div className="flex mt-auto justify-end">
-        <span className="hover:bg-slate-100 cursor-pointer hover:text-red-700 rounded-lg p-2">
+        <span
+          onClick={handleDelete}
+          className="hover:bg-slate-100 cursor-pointer hover:text-red-700 rounded-lg p-2"
+        >
           <AiOutlineDelete size={23} />
         </span>
 

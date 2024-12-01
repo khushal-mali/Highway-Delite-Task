@@ -112,7 +112,23 @@ export const createNewNote = async (
 };
 
 export const getAllNotes = async () => {
-  const res = await axios.post("/note/getAll");
+  const res = await axios.get("/note/getAll");
+  console.log(res);
+
+  if (res.status !== 200) {
+    throw new Error(res.data.error);
+  }
+
+  const data = await res.data;
+  return data;
+};
+
+export const deleteNoteById = async (id: string) => {
+  const res = await axios.delete(`/note/delete/${id}`, {
+    beforeRedirect(options, responseDetails) {
+      window.confirm("Submit?");
+    },
+  });
   console.log(res);
 
   if (res.status !== 200) {

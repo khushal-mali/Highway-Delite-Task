@@ -1,10 +1,15 @@
 import { Router } from "express";
 import { verifyToken } from "../middleware/middlewares.js";
-import { createNewNote, getAllNotes } from "../controllers/noteControllers.js";
+import {
+  createNewNote,
+  deleteNote,
+  getAllNotes,
+} from "../controllers/noteControllers.js";
 
 const noteRoutes = Router();
 
 noteRoutes.post("/create", verifyToken, createNewNote);
-noteRoutes.post("/getAll", verifyToken, getAllNotes);
+noteRoutes.get("/getAll", verifyToken, getAllNotes);
+noteRoutes.delete("/delete/:id", verifyToken, deleteNote);
 
 export default noteRoutes;

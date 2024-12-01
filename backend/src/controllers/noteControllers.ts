@@ -85,3 +85,44 @@ export const getAllNotes = async (req: Request, res: Response) => {
       .json({ error: "An error occurred while fetching the notes." });
   }
 };
+
+export const deleteNote = async (req: Request, res: Response) => {
+  const { id: noteId } = req.params;
+  const userId = res.locals.jwtData.userId;
+
+  console.log(noteId);
+
+  try {
+    // Find the user by their ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    // Find the index of the note to be deleted
+    const noteIndex = user.notes.findIndex(
+      (note) => String(note._id) === noteId
+    );
+
+    if (noteIndex === -1) {
+      return res.status(404).json({ error: "Note not found." });
+    }
+
+    // Remove the note from the array
+    const deletedNote = user.notes.splice(noteIndex, 1);
+
+    // Save the updated user document
+    await user.save();
+
+    return res.status(200).json({
+      message: "Note deleted successfully.",
+      deletedNote: deletedNote[0], // Return the deleted note object
+    });
+  } catch (error) {
+    console.error("Error deleting note:", error);
+    return res
+      .status(500)
+      .json({ error: "An error occurred while deleting the note." });
+  }
+};

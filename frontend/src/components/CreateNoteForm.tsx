@@ -42,7 +42,6 @@ const CreateNoteForm = ({
       title: formData.title,
       content: formData.content,
       tags: formData.tags.split(" ").join("").split(",").join(" "),
-      // .replace(/\s+/g, "_")
       importance: formData.importance,
     };
 
@@ -53,6 +52,7 @@ const CreateNoteForm = ({
     try {
       await noteFormCreationVal.parseAsync(formValues);
       const data = await createNewNote(title, content, tags, importance);
+
       if (data.note) {
         setFormData({ title: "", content: "", tags: "", importance: "Medium" });
         toast.success("Note Created Successfully.");
@@ -68,7 +68,6 @@ const CreateNoteForm = ({
         setErrors(fieldErorrs as unknown as Record<string, string>);
 
         toast.error("Please check your inputs and try again");
-        return { error: "Validation failed", status: "ERROR" };
       }
 
       console.log(error);

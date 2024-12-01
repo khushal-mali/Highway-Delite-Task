@@ -1,9 +1,9 @@
-import { BiPlus } from "react-icons/bi";
-import Note, { NoteProps } from "./Note";
 import { useEffect, useState } from "react";
-import Modal from "./Modal";
-import CreateNoteForm from "./CreateNoteForm";
+import { BiPlus } from "react-icons/bi";
 import { getAllNotes } from "../lib/api-communicators";
+import CreateNoteForm from "./CreateNoteForm";
+import Modal from "./Modal";
+import Note from "./Note";
 
 type NoteType = {
   _id: string;
