@@ -3,7 +3,7 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { AuthCompType } from "../pages/Auth";
 import { requestSignupOtp, verifySignupOtp } from "../utils/api-communicators";
 import toast from "react-hot-toast";
-import { signupOtpVal, verifySignupOptVal } from "../utils/validation";
+import { signupOtpVal, verifySignupOtpVal } from "../utils/validation";
 import { z } from "zod";
 import { useAuth } from "../context/AuthContext";
 
@@ -19,6 +19,7 @@ const Signup = ({
   const [otp, setOtp] = useState("");
   const [dob, setDob] = useState("");
   const auth = useAuth();
+  // const [keepMeLoggedIn, setKeepMeLoggedIn] = useState(false);
 
   const handleRequestOTP = async () => {
     try {
@@ -44,7 +45,7 @@ const Signup = ({
     try {
       const date = new Date(dob);
 
-      await verifySignupOptVal.parseAsync({ name, email, dob: date, otp });
+      await verifySignupOtpVal.parseAsync({ name, email, dob: date, otp });
 
       const data = await verifySignupOtp(email, otp);
       const user = data.user;
@@ -55,6 +56,7 @@ const Signup = ({
           name: user.name,
           dob: new Date(user.dob),
         });
+        auth?.setIsLoggedIn(true);
       }
     } catch (error: any) {
       if (error instanceof z.ZodError) {
@@ -156,6 +158,45 @@ const Signup = ({
             {errors.otp && <p className="text-xs text-red-600">{errors.otp}</p>}
           </div>
         </div>
+
+        {/* <div className="w-full">
+          <div className="inline-flex items-center">
+            <label
+              className="flex items-center cursor-pointer relative"
+              htmlFor="check-2"
+            >
+              <input
+                type="checkbox"
+                checked={keepMeLoggedIn}
+                onChange={() => setKeepMeLoggedIn((prev) => !prev)}
+                className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-primary checked:border-pribg-primary"
+                id="check-2"
+              />
+              <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-3.5 w-3.5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="1"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </span>
+            </label>
+            <label
+              className="cursor-pointer ml-2 text-slate-600 text-sm"
+              htmlFor="check-2"
+            >
+              Keep me logged in
+            </label>
+          </div>
+        </div> */}
 
         <button
           onClick={handleVerifySignup}

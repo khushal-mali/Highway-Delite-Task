@@ -1,4 +1,20 @@
+import { useAuth } from "../context/AuthContext";
+import { logoutUser } from "../utils/api-communicators";
+
 const Navbar = () => {
+  const auth = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      const data = await logoutUser();
+      auth?.setIsLoggedIn(false);
+      auth?.setUser(null);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="h-16 px-10 border-b flex items-center justify-between">
       <div className="cursor-pointer flex gap-2 items-center">
@@ -6,7 +22,10 @@ const Navbar = () => {
         <p className="font-bold text-2xl text-gray-800">Dashboard</p>
       </div>
 
-      <div className="font-semibold text-xl cursor-pointer hover:underline text-primary">
+      <div
+        onClick={handleLogout}
+        className="font-semibold text-xl cursor-pointer hover:underline text-primary"
+      >
         Sign Out
       </div>
     </div>
