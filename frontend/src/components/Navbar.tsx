@@ -1,8 +1,10 @@
+import { useNavigate } from "react-router";
 import { useAuth } from "../context/AuthContext";
 import { logoutUser } from "../utils/api-communicators";
 
 const Navbar = () => {
   const auth = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
@@ -17,7 +19,10 @@ const Navbar = () => {
 
   return (
     <div className="h-16 px-10 border-b flex items-center justify-between">
-      <div className="cursor-pointer flex gap-2 items-center">
+      <div
+        onClick={() => navigate("/")}
+        className="cursor-pointer flex gap-2 items-center"
+      >
         <img src="HD.svg" alt="logo" />
         <p className="font-bold text-2xl text-gray-800">Dashboard</p>
       </div>
