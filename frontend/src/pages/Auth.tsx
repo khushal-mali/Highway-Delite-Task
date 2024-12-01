@@ -1,11 +1,25 @@
-import { useState } from "react";
-import Signup from "../components/Signup";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import Signin from "../components/Signin";
+import Signup from "../components/Signup";
+import { useAuth } from "../context/AuthContext";
 
 export type AuthCompType = "Signup" | "Signin";
 
 const Auth = () => {
   const [authComp, setAuthComp] = useState<AuthCompType>("Signup");
+  const auth = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuth = () => {
+      if (auth?.isLoggedIn) {
+        navigate("/");
+      }
+    };
+
+    checkAuth();
+  }, [auth, navigate]);
 
   return (
     <div className="w-full h-screen flex">

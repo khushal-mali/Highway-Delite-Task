@@ -1,16 +1,15 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { generateOtp, sendOtp } from "../utils/helpers.js";
 import User from "../models/User.js";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-export async function signup(req: Request, res: Response): Promise<void> {
-  const { email, name } = req.body;
+export async function signup(req: Request, res: Response) {
+  const { email, name, dob } = req.body;
 
   if (!email) {
-    res.status(500).json({ error: "Email not found!!!" });
-    res.end();
+    return res.status(500).json({ error: "Email not found!!!" });
   }
 
   try {
@@ -18,7 +17,7 @@ export async function signup(req: Request, res: Response): Promise<void> {
     const hashedOtp = await bcrypt.hash(otp, 10);
 
     const user = await User.findOneAndUpdate(
-      { email, name },
+      { email, name, dob },
       {
         otp: hashedOtp,
         otpExpiresAt: Date.now() + 5 * 60 * 1000,
@@ -28,35 +27,30 @@ export async function signup(req: Request, res: Response): Promise<void> {
     );
 
     await sendOtp(email, otp);
-    res.status(200).json({ message: "OTP sent to your email." });
+    res.status(201).json({ message: "OTP sent to your email." });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ error: "Error during signup." });
   }
 }
 
-export async function verifySignupOtp(
-  req: Request,
-  res: Response
-): Promise<void> {
+export async function verifySignupOtp(req: Request, res: Response) {
   const { email, otp, keepMeLoggedIn } = req.body;
 
   try {
     const user = await User.findOne({ email });
 
     if (!user) {
-      res.status(404).json({ error: "User not found." });
-      return;
+      return res.status(404).json({ error: "User not found." });
     }
 
     if (!user.otp || user.otpExpiresAt.getTime() < Date.now()) {
-      res.status(400).json({ error: "OTP expired or invalid." });
-      return;
+      return res.status(400).json({ error: "OTP expired or invalid." });
     }
 
     const isOtpValid = await bcrypt.compare(otp, user.otp);
     if (!isOtpValid) {
-      res.status(400).json({ error: "Invalid OTP." });
-      return;
+      return res.status(400).json({ error: "Invalid OTP." });
     }
 
     // Generate JWT token with dynamic expiration time
@@ -82,9 +76,14 @@ export async function verifySignupOtp(
     user.isVerified = true;
     await user.save();
 
-    res
-      .status(200)
-      .json({ message: "Signup successful! You are now logged in." });
+    res.status(201).json({
+      message: "Signup successful! You are now logged in.",
+      user: {
+        name: user.name,
+        email: user.email,
+        dob: user.dob,
+      },
+    });
   } catch (error) {
     res
       .status(500)
@@ -168,3 +167,29 @@ export async function verifyLoginOtp(
       .json({ error: `Error during OTP verification. ${error.message}` });
   }
 }
+
+export const verifyUser = async (req: Request, res: Response) => {
+  try {
+    //user token check
+    console.log(res.locals.jwtData.userId);
+    const user = await User.findById(res.locals.jwtData.userId);
+
+    if (!user) {
+      return res.status(401).send("User not registered OR Token malfunctioned");
+    }
+
+    if (user._id.toString() !== res.locals.jwtData.userId) {
+      return res.status(401).send("Permissions didn't match");
+    }
+
+    return res.status(200).json({
+      message: "OK",
+      name: user.name,
+      email: user.email,
+      dob: user.dob,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "ERROR", cause: error.message });
+  }
+};
