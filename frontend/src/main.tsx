@@ -9,8 +9,7 @@ import { Toaster } from "react-hot-toast";
 import { BrowserRouter } from "react-router";
 import { AuthProvider } from "./context/AuthContext.tsx";
 
-axios.defaults.baseURL =
-  "https://highway-delite-backend-j5fn.onrender.com/api/v1";
+axios.defaults.baseURL = "https://highway-delite-backend-j5fn.onrender.com";
 axios.defaults.withCredentials = true;
 
 createRoot(document.getElementById("root")!).render(
