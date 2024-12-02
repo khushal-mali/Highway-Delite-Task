@@ -124,11 +124,7 @@ export const getAllNotes = async () => {
 };
 
 export const deleteNoteById = async (id: string) => {
-  const res = await axios.delete(`/note/delete/${id}`, {
-    beforeRedirect(options, responseDetails) {
-      window.confirm("Submit?");
-    },
-  });
+  const res = await axios.delete(`/note/delete/${id}`);
   console.log(res);
 
   if (res.status !== 200) {
