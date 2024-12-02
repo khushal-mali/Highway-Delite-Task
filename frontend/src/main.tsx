@@ -10,7 +10,7 @@ import { BrowserRouter } from "react-router";
 import { AuthProvider } from "./context/AuthContext.tsx";
 
 axios.defaults.baseURL =
-  "https://highway-delite-backend-j5fn.onrender.com/api/v1";
+  "https://highway-delite-backend-j5fn.onrender.com";
 axios.defaults.withCredentials = true;
 
 createRoot(document.getElementById("root")!).render(

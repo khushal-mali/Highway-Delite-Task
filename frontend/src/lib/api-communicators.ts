@@ -6,7 +6,7 @@ export const requestSignupOtp = async (
   email: string,
   dob: Date
 ) => {
-  const res = await axios.post("/user/signup", { name, email, dob });
+  const res = await axios.post("/api/v1/user/signup", { name, email, dob });
 
   if (res.status !== 201) {
     throw new Error("Unable to Signup");
@@ -19,7 +19,7 @@ export const requestSignupOtp = async (
 };
 
 export const requestLoginOtp = async (email: string) => {
-  const res = await axios.post("/user/login", { email });
+  const res = await axios.post("/api/v1/user/login", { email });
 
   if (res.status !== 201) {
     throw new Error("Unable to Signup");
@@ -32,7 +32,7 @@ export const requestLoginOtp = async (email: string) => {
 };
 
 export const verifySignupOtp = async (email: string, otp: string) => {
-  const res = await axios.post("/user/verifySignup", { email, otp });
+  const res = await axios.post("/api/v1/user/verifySignup", { email, otp });
 
   if (res.status !== 201) {
     throw new Error("Unable to Signup");
@@ -49,7 +49,7 @@ export const verifyLoginOtp = async (
   otp: string,
   keepMeLoggedIn: boolean
 ) => {
-  const res = await axios.post("/user/verifyLogin", {
+  const res = await axios.post("/api/v1/user/verifyLogin", {
     email,
     otp,
     keepMeLoggedIn,
@@ -66,7 +66,7 @@ export const verifyLoginOtp = async (
 };
 
 export const checkAuthStatus = async () => {
-  const res = await axios.get("/user/auth-status");
+  const res = await axios.get("/api/v1/user/auth-status");
   console.log(res);
 
   if (res.status !== 200) {
@@ -78,7 +78,7 @@ export const checkAuthStatus = async () => {
 };
 
 export const logoutUser = async () => {
-  const res = await axios.get("/user/logout");
+  const res = await axios.get("/api/v1/user/logout");
 
   if (res.status !== 200) {
     throw new Error("Unable to logout.");
@@ -95,7 +95,7 @@ export const createNewNote = async (
   tags: string,
   importance: "Low" | "Medium" | "High"
 ) => {
-  const res = await axios.post("/note/create", {
+  const res = await axios.post("/api/v1/note/create", {
     title,
     content,
     tags,
@@ -112,7 +112,7 @@ export const createNewNote = async (
 };
 
 export const getAllNotes = async () => {
-  const res = await axios.get("/note/getAll");
+  const res = await axios.get("/api/v1/note/getAll");
   console.log(res);
 
   if (res.status !== 200) {
@@ -124,7 +124,7 @@ export const getAllNotes = async () => {
 };
 
 export const deleteNoteById = async (id: string) => {
-  const res = await axios.delete(`/note/delete/${id}`);
+  const res = await axios.delete(`/api/v1/note/delete/${id}`);
   console.log(res);
 
   if (res.status !== 200) {
